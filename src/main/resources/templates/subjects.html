@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subjects - NoteShare</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <nav class="navbar">
+        <a th:href="@{/}" class="logo">NoteShare</a>
+        <ul class="nav-links">
+            <li><a th:href="@{/}">Home</a></li>
+            <li><a th:href="@{/students}">Students</a></li>
+            <li><a th:href="@{/subjects}" class="active">Subjects</a></li>
+            <li><a th:href="@{/notes}">Notes</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <!-- Add Subject Form -->
+        <div class="card">
+            <h2>Add Subject</h2>
+            <form th:action="@{/subjects/add}" th:object="${subject}" method="post">
+                <div class="form-row">
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="name">Subject Name:</label>
+                            <input type="text" id="name" th:field="*{name}" class="form-control" placeholder="e.g. Java Programming">
+                            <span class="error-text" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+                        </div>
+                    </div>
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="code">Subject Code:</label>
+                            <input type="text" id="code" th:field="*{code}" class="form-control" placeholder="e.g. CS101 / JAVA">
+                            <span class="error-text" th:if="${#fields.hasErrors('code')}" th:errors="*{code}"></span>
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-success">Add Subject</button>
+            </form>
+        </div>
+
+        <!-- Subject List -->
+        <div class="card">
+            <h2>Subject List</h2>
+            <div class="table-responsive">
+                <table class="styled-table" th:if="${subjects != null and !subjects.empty}">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Subject Name</th>
+                            <th>Subject Code</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="sub : ${subjects}">
+                            <td th:text="${sub.id}">1</td>
+                            <td th:text="${sub.name}">Java</td>
+                            <td th:text="${sub.code}">JAVA</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p class="empty-msg" th:if="${subjects == null or subjects.empty}">No subjects found. Add a subject above.</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
