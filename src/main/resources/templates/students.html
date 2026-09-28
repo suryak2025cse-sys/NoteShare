@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Students - NoteShare</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <nav class="navbar">
+        <a th:href="@{/}" class="logo">NoteShare</a>
+        <ul class="nav-links">
+            <li><a th:href="@{/}">Home</a></li>
+            <li><a th:href="@{/students}" class="active">Students</a></li>
+            <li><a th:href="@{/subjects}">Subjects</a></li>
+            <li><a th:href="@{/notes}">Notes</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <!-- Add Student Form -->
+        <div class="card">
+            <h2>Add Student</h2>
+            <form th:action="@{/students/add}" th:object="${student}" method="post">
+                <div class="form-row">
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="name">Student Name:</label>
+                            <input type="text" id="name" th:field="*{name}" class="form-control" placeholder="Enter student name">
+                            <span class="error-text" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+                        </div>
+                    </div>
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="email">Student Email:</label>
+                            <input type="email" id="email" th:field="*{email}" class="form-control" placeholder="Enter student email">
+                            <span class="error-text" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Add Student</button>
+            </form>
+        </div>
+
+        <!-- Student List -->
+        <div class="card">
+            <h2>Student List</h2>
+            <div class="table-responsive">
+                <table class="styled-table" th:if="${students != null and !students.empty}">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="std : ${students}">
+                            <td th:text="${std.id}">1</td>
+                            <td th:text="${std.name}">Surya</td>
+                            <td th:text="${std.email}">surya@gmail.com</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p class="empty-msg" th:if="${students == null or students.empty}">No students found. Add a student above.</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
